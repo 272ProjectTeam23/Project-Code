@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</meta>
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<body>
+
+	<h1 style="margin-top: 150px;">Homeless user details.</h1>
+	<table id="tab" class="table table-striped">
+		<thead>
+			<th>Id</th>
+			<th>FirstName</th>
+			<th>LastName</th>
+			<th>Gender</th>
+			<th>SSN</th>
+			<th>ZipCode</th>
+			<th>City</th>
+			<th>State</th>
+			<th>PhoneNumber</th>
+			<th>Email</th>
+			<th>TagNo</th>
+			<th>BedId</th>
+			<th>Delete User</th>
+			<th>Update User</th>
+		</thead>
+		<tbody>
+		</tbody>
+		<tfoot>
+			<td colspan="4"><ul id="paging" class="pagination">
+				</ul></td>
+		</tfoot>
+	</table>
+	<script type="text/javascript">
+		var tab = $('#tab')
+
+		var xhr = function() {
+
+			console.log(arguments);
+			return $.ajax({
+				url : "/viewAllUsers",
+				dataType : 'json'
+			});
+		};
+
+		var renderer = function(r, c, item) {
+			switch (c) {
+			case 0:
+				console.log(r);
+				console.log(c);
+				return item._id;
+
+			case 1:
+				return item.firstName;
+
+			case 2:
+				return item.lastName;
+
+			case 3:
+				return item.gender;
+			case 4:
+				return item.ssn;
+			case 5:
+				return item.zipCode;
+
+			case 6:
+				return item.city;
+
+			case 7:
+				return item.state;
+
+			case 8:
+				return item.phone;
+
+			case 9:
+				return item.email;
+
+			case 10:
+				return item.tagNo;
+
+			case 11:
+				return item.bedId;
+
+			case 12:
+				var del = document.createElement('input');
+				del.type = 'button';
+				del.id = item._id;
+				del.name = item.firstName + "/" + item.lastName;
+				del.value = "delete";
+
+				del.onclick = function() {
+					alert("Delete button with id : " + del.id);
+
+					$.get("/deleteUser/" + del.name + "/" + del.id).done(
+							function(data) {
+
+								alert('User deleted successfully');
+								location.reload();
+							});
+
+				};
+				return del;
+				
+			case 13:
+				var update = document.createElement('input');
+				update.type = 'button';
+				update.id = item._id;
+				//update.name = item.firstName + "/" + item.lastName;
+				update.value = "update";
+
+				update.onclick = function() {
+					//alert("update button with id : " + del.id);
+
+					$.get(
+							"/updateUserInfo/" + update.id + "/"
+									+ item.firstName + "/" + item.lastName
+									+ "/" + item.gender + "/" + item.ssn + "/"
+									+ item.city + "/" + item.state + "/"
+									+ item.zipCode + "/" + item.phone
+									+ "/" + item.email + "/" + item.tagNo
+									+ "/" + item.bedId).done(function(data) {
+
+						alert('User Updated successfully');
+						location.reload();
+					});
+
+				};
+				return update;
+
+			}
+		};
+
+		tab.tabulate({
+
+			source : xhr,
+			renderer : renderer,
+			pagination : $('#paging'),
+			pagesI18n : function(str) {
+				switch (str) {
+				case 'next':
+					return '';
+
+				case 'prev':
+					return '';
+				}
+			}
+		}).on('loadfailure', function() {
+			console.error(arguments);
+			alert('Failed!');
+		});
+
+		tab.trigger('load');
+	</script>
+	
+</body>
+</html>
