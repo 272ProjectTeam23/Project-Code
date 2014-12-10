@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Payment and Shipping Information</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>User Registration</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<script type="text/javascript">
+function callme(){
+	
+	var fname = document.getElementById('fname').value;
+	console.log(fname);
+	var lname = document.getElementById('lname').value;
+	console.log(lname);
+
+	var address = document.getElementById('address').value;
+	console.log(address);
+
+	var state = document.getElementById('state').value;
+	console.log(state);
+
+	var city = document.getElementById('city').value;
+	console.log(city);
+
+	var zipCode = document.getElementById('zipCode').value;
+	console.log(zipCode);
+
+	var phone = document.getElementById('phone').value;
+	console.log(phone);
+
+	var email = document.getElementById('email').value;
+	console.log(email);
+
+	var tagNo = document.getElementById('tagNo').value;
+	console.log(tagNo);
+
+	var bedId = document.getElementById('bedId').value;
+	console.log(bedId);
+
+	
+	
+	//  document.getElementById('form1').action = "/register/{"+fname+"}/{"+lname+"}/{"+address+"}/{"+state+"}/{"+city+"}/{"+zipCode+"}/{"+'88'+"}/{"+email+"}/{"+tagNo+"}/{"+bedId+"}";
+	  
+//document.getElementById('form1').action = "/register/abhinav/kadam/abc/ca/sj/9522/408901/abc/77/23";
+
+	//document.getElementById('form1').submit();
+
+	   $.get("/register/"+fname+"/"+lname+"/"+address+"/"+state+"/"+city+"/"+zipCode+"/"+phone+"/"+email+"/"+tagNo+"/"+bedId)
+       .done(function(data) {
+           alert('data inserted');
+       });
+	
+	
+	
+	
+}
+
+</script>
+</head>
+<body>
+
+ <form method="post" th:action="@{/register}" th:object="${info}">
+ 
+
+            <input id="fname" name="fname" th:field="*{firstName}" type="text" placeholder="First Name" />
+            <input id="lname" name="lname" th:field="*{lastName}" type="text" placeholder="Last Name" />
+             <input id="ssn" name="ssn" th:field="*{ssn}" type="text" placeholder="SSN" />
+                         <input id="gender" name="gender" th:field="*{gender}" type="text" placeholder="Gender" />
+<!--             <input id="address" name="address" th:field="*{address}" type="text" placeholder="Address" /> -->
+            <input id="state" name="state" th:field="*{state}" type="text" placeholder="State" />
+            <input id="city" name="city" th:field="*{city}" type="text" placeholder="City" />
+            <input id="zipCode" name="zipCode" th:field="*{zipCode}" type="text" placeholder="ZipCode" />
+            <input id="phone" name="phone" th:field="*{phoneNumber}" type="text" placeholder="phone" />
+            <input id="email" name="email" th:field="*{email}" type="text" placeholder="Email" />
+            <input id="tagNo" name="tagNo" th:field="*{tagNo}" type="text" placeholder="Tag No" />
+            <input id="bedId" name="bedId" th:field="*{bedId}" type="text" placeholder="BedId" />
+<!--             <button onclick="callme()">submit</button> -->
+			<input type="submit" value="Submit"/>
+ </form>  
+
+
+
+
+
+
+
+
+</body>
+</html>
