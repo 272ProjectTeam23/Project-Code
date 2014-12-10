@@ -77,7 +77,7 @@ def main():
             rfid_db.insert({'_id':id_cur[0]["_id"]+1,'tagNo':tagNo,'rfidCode':rfidCode})
         #encrypt rfid#
         encoded = EncodeAES(cipher,rfidCode)
-        print(encoded)
+        #print(encoded)
         #get code ready to program
         sp = nfc.ndef.TextRecord(encoded)
         #program rfid# to tag
@@ -85,7 +85,7 @@ def main():
         tag = clf.connect(rdwr={'on-connect':connect})
         tag.ndef.message = nfc.ndef.Message(sp)
         #provide feedback
-        if 'q' == raw_input("type q to quit, c to continue"):
+        if 'q' == raw_input("Tag programmed successfully. Type q to quit, c to continue"):
             #cleanup
             clf.close()
             client.close()
